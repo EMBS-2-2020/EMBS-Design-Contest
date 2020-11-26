@@ -9,13 +9,16 @@ class Mesh:
         self.tasks = tasks
         self.comm_flows = comm_flows
         self.sim = sim
+        self.mapping = mapping
 
         for y in range(meshY):
             x_line = []
             for x in range(meshX):
                 x_line.append(Router(x, y, self, Processor(self)))
             self.mesh.append(x_line)
-        self.run_map(mapping)
+
+    def run_mesh(self):
+        self.run_map(self.mapping)
         self.populate_routes()
 
     def get_router(self, x, y):

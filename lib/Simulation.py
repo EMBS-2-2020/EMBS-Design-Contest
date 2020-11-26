@@ -69,6 +69,7 @@ class Simulation:
 
         # 2D array of router classes with [y][x] in array form
         self.mesh = Mesh(meshX, meshY, tasks, comm_flows, mapping)
+        self.mesh.run_mesh()
 
     def get_cost_mark(self):
         return (self.get_mesh_x * self.get_mesh_y) + self.factor_fc * self.factor_fi
