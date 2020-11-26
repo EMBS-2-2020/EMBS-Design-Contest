@@ -41,24 +41,43 @@ class Mesh:
         # Put tasks to processors, this also adds util to the processor
         # TODO: Adjust based off factor value
         for id, x, y in mapping:
-            router = self.get_router(x,y)
+            router = self.get_router(x, y)
             if not router.push_task(self.get_task(id)):
                 raise Exception("SIMULATION FAILED - PROCESSOR UTIL EXCEEDED")
 
     def populate_routes(self):
         for y in len(self.mesh):
             for x in len(self.mesh[0]):
-                router = self.get_router(x,y)
+                router = self.get_router(x, y)
                 for comm_flow in self.comm_flows:
                     has_routed = False
-                    if router.processor.has_task(comm_flow.send_task):
-                         # do routing
+                    if router.processor.has_task(comm_flow.send_task_id):
+                        # do routing
                         has_routed = True
                         dest_router = None
                         for y1 in len(self.mesh):
-                             for x1 in len(self.mesh[0]):
-                                 i_router = self.get_router(x1,y1)
+                            for x1 in len(self.mesh[0]):
+                                i_router = self.get_router(x1, y1)
+                                if i_router.processor.has_task(comm_flow.dest_task_id):
+                                    dest_router = i_router
                         if dest_router is None:
                             raise Exception("Destination task not found on any processor!")
+                        self.do_route(router, dest_router, comm_flow)
                     if not has_routed:
                         raise Exception("CommFlow not routed! Start task not found on any processor")
+
+    def do_route(self, r1, r2, comm_flow):
+        if not r1.push_comm_flow(comm_flow):
+            raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
+        # do x alignment
+        if not r1.x == r2.x:
+            for i in (r1.x - r2.x):
+                router = self.get_router(r1.x + i, r1.y)
+                if not router.push_comm_flow(comm_flow):
+                    raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
+        # do y alignment
+        if not r1.y == r2.y:
+            for i in (r1.y - r2.y):
+                router = self.get_router(r2.x, r1.y+i)
+                if not router.push_comm_flow(comm_flow):
+                    raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
