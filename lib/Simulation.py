@@ -1,9 +1,11 @@
 from lib.Mesh import Mesh
 from lib.CommFlow import CommFlow
 from lib.Task import Task
+import numpy as np
+import copy
 
 # Consts
-tasks = [
+btasks = [
     Task(1, 0.27),
     Task(2, 0.31),
     Task(3, 0.22),
@@ -51,7 +53,7 @@ tasks = [
 ]
 
 # TODO: Add the rest of the commflows
-comm_flows = [
+bcomm_flows = [
     CommFlow(1, 0.44, 36, 37),
     CommFlow(2, 0.41, 2, 32),
     CommFlow(3, 0.17, 22, 25),
@@ -69,17 +71,48 @@ class Simulation:
         self.meshX = meshX
         self.meshY = meshY
 
+        self.tasks = copy.deepcopy(btasks)
+        self.comm_flows = copy.deepcopy(bcomm_flows)
+
         self.modify_util()
 
         # 2D array of router classes with [y][x] in array form
-        self.mesh = Mesh(self, meshX, meshY, tasks, comm_flows, mapping)
+        self.mesh = Mesh(self, meshX, meshY, self.tasks, self.comm_flows, mapping)
         self.mesh.run_mesh()
 
     def get_cost_mark(self):
         return (self.meshX * self.meshY) + self.factor_fc * self.factor_fi
 
+    def get_fitness(self):
+        # Need to make a better fitness function
+        alpha = 1 # Inital cost
+        beta = 1 # How well distributed is the work over processors
+        zeta = 1 # How much noc util is there
+
+        # Inital cost
+        f1 = (self.meshX * self.meshY) + self.factor_fc * self.factor_fi
+
+        # How much noc util is there
+        f2 = 0
+
+        for i in self.mesh.mesh:
+            for rout in i:
+                f2 += sum(rout.util)
+                f2 += rout.processor.commflow_util
+
+        # How well distributed is the work over processors
+        proc_util = []
+
+        for i in self.mesh.mesh:
+            for rout in i:
+                proc_util.append(rout.processor.util)
+
+        f3 = np.var(proc_util)
+
+        return f1*alpha + f2*zeta + f3*beta
+
     def modify_util(self):
-        for t in tasks:
+        for t in self.tasks:
             t.util = t.util / self.factor_fi
-        for c in comm_flows:
+        for c in self.comm_flows:
             c.util = c.util / self.factor_fc

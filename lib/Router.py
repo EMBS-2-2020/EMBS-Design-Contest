@@ -36,7 +36,7 @@ class Router:
             self.util[direction] += comm_flow.util
             return True
         else:
-            raise Exception("Capacitcy is overflowed on router {},{}".format(x,y))
+            raise Exception("Capacitcy is overflowed on router {},{}".format(self.x,self.y))
 
     def has_capacity(self, comm_flow, direction):
         return self.util[direction] + comm_flow.util <= 1
