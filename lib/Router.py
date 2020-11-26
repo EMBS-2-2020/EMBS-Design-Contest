@@ -1,10 +1,12 @@
 class Router:
-    def __init__(self, x, y, ass_processor):
+    def __init__(self, x, y, mesh, processor):
         self.x = x
         self.y = y
+        self.mesh = mesh
 
-        self.core = ass_processor
+        self.processor = processor
+        self.comm_flows = []
         self.util = 0
 
-    def pushtask_ass_processor(self, task):
-        self.core.pushTask(task)
+    def push_task(self, task):
+        return self.processor.push_task(task)
