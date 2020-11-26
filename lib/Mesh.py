@@ -49,8 +49,9 @@ class Mesh:
                 raise Exception("SIMULATION FAILED - PROCESSOR UTIL EXCEEDED")
 
     def populate_routes(self):
-        for y in len(self.mesh):
-            for x in len(self.mesh[0]):
+        print(self.mesh)
+        for y in range(len(self.mesh)):
+            for x in range(len(self.mesh[0])):
                 router = self.get_router(x, y)
                 for comm_flow in self.comm_flows:
                     has_routed = False
@@ -58,8 +59,8 @@ class Mesh:
                         # do routing
                         has_routed = True
                         dest_router = None
-                        for y1 in len(self.mesh):
-                            for x1 in len(self.mesh[0]):
+                        for y1 in range(len(self.mesh)):
+                            for x1 in range(len(self.mesh[0])):
                                 i_router = self.get_router(x1, y1)
                                 if i_router.processor.has_task(comm_flow.dest_task_id):
                                     dest_router = i_router
@@ -74,13 +75,13 @@ class Mesh:
             raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
         # do x alignment
         if not r1.x == r2.x:
-            for i in (r1.x - r2.x):
+            for i in range(r1.x - r2.x):
                 router = self.get_router(r1.x + i, r1.y)
                 if not router.push_comm_flow(comm_flow):
                     raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
         # do y alignment
         if not r1.y == r2.y:
-            for i in (r1.y - r2.y):
+            for i in range(r1.y - r2.y):
                 router = self.get_router(r2.x, r1.y+i)
                 if not router.push_comm_flow(comm_flow):
                     raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")

@@ -66,10 +66,20 @@ class Simulation:
     def __init__(self, meshX, meshY, factor_fc, factor_fi, mapping):
         self.factor_fc = factor_fc
         self.factor_fi = factor_fi
+        self.meshX = meshX
+        self.meshY = meshY
+
+        self.modify_util()
 
         # 2D array of router classes with [y][x] in array form
-        self.mesh = Mesh(meshX, meshY, tasks, comm_flows, mapping)
+        self.mesh = Mesh(self, meshX, meshY, tasks, comm_flows, mapping)
         self.mesh.run_mesh()
 
     def get_cost_mark(self):
-        return (self.get_mesh_x * self.get_mesh_y) + self.factor_fc * self.factor_fi
+        return (self.meshX * self.meshY) + self.factor_fc * self.factor_fi
+
+    def modify_util(self):
+        for t in tasks:
+            t.util = t.util * self.factor_fi
+        for c in comm_flows:
+            c.util = c.util * self.factor_fc
