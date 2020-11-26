@@ -6,18 +6,37 @@ class Router:
 
         self.processor = processor
         self.comm_flows = []
-        self.util = 0
+        self.util = [0]*5
+
+    def recieve_flow(self, flow):
+        temp = self.mesh.get_router_of_task(flow.dest_task_id).x
+        temp2 = self.mesh.get_router_of_task(flow.dest_task_id).y
+
+        if self.x > temp:
+            self.mesh.get_router(self.x-1, self.y).recieve_flow(flow)
+            self.push_comm_flow(flow, 0)
+        elif self.x < temp:
+            self.mesh.get_router(self.x+1, self.y).recieve_flow(flow)
+            self.push_comm_flow(flow, 1)
+        elif self.y > temp2:
+            self.mesh.get_router(self.x, self.y-1).recieve_flow(flow)
+            self.push_comm_flow(flow, 2)
+        elif self.y < temp2:
+            self.mesh.get_router(self.x, self.y+1).recieve_flow(flow)
+            self.push_comm_flow(flow, 3)
+        else:
+            self.push_comm_flow(flow, 4)
+
 
     def push_task(self, task):
         return self.processor.push_task(task)
 
-    def push_comm_flow(self, comm_flow):
-        if self.has_capacity(comm_flow):
-            self.util += comm_flow.util
-            self.comm_flows.append(comm_flow)
+    def push_comm_flow(self, comm_flow, direction):
+        if self.has_capacity(comm_flow, direction):
+            self.util[direction] += comm_flow.util
             return True
         else:
-            return False
+            raise Exception("Capacitcy is overflowed on router {},{}".format(x,y))
 
-    def has_capacity(self, comm_flow):
-        return self.util + comm_flow.util <= 1
+    def has_capacity(self, comm_flow, direction):
+        return self.util[direction] + comm_flow.util <= 1

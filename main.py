@@ -1,5 +1,6 @@
 from lib import Simulation
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -10,8 +11,8 @@ def gen_main():
     # Consts
     pop_size = 1000
     mutation_rate = 0.01
-    meshX = 3
-    meshY = 3
+    meshX = 4
+    meshY = 4
     runs = 100
 
     # Generate population
@@ -30,23 +31,28 @@ def gen_main():
     population_mappings = [create_random_mapping() for i in range(pop_size)]
 
     for k in range(runs):
+        print('\nIteration {}'.format(k))
         # Sim population collect costs and inf if fail
         costs = []
 
         for mapping in population_mappings:
-            # try:
-            print(mapping)
-            sim = Simulation.Simulation(meshX, meshY, 99, 99, mapping)
-            costs.append(sim.get_cost_mark())
-            # except Exception:
-            #     costs.append(1000)
+            try:
+                sim = Simulation.Simulation(meshX, meshY, 1, 1, mapping)
+                costs.append(sim.get_cost_mark())
+            except Exception:
+                costs.append(1000)
+
+            # costs.append(np.random.randint(0, 1000))
 
 
         # Invert costs need to find range
         inv_costs = np.asarray(costs)
         inv_costs = np.abs(inv_costs - 1000)
+        print('Fitness = Max: {}  Min: {}  Ave: {}'.format(inv_costs.max(), inv_costs.min(), inv_costs.mean()))
+        print('Best mapping is:\n{}'.format(population_mappings[np.argmax(inv_costs)]))
 
-
+        # print(costs)
+        # print(inv_costs)
         # Breed population
         distribution = inv_costs/sum(inv_costs)
 
