@@ -15,51 +15,47 @@ def gen_main():
 
     try:
         # Consts
-        pop_size = 1000
+        pop_size = 500
         mutation_rate = 0.01
         meshX = 4
-        meshY = 4
+        meshY = 3
         runs = 100
 
         # Generate population
         def create_random_mapping():
 
-            # Uncomment for non-selective start
-            mapping = []
-            taskIDs = [i.id for i in Simulation.btasks]
+            # # Uncomment for non-selective start
+            # mapping = []
+            # taskIDs = [i.id for i in Simulation.btasks]
 
-            for id in taskIDs:
+            # for id in taskIDs:
 
-                randX = np.random.randint(0, meshX)
-                randY = np.random.randint(0, meshY)
-                mapping.append((id, randX, randY))
+            #     randX = np.random.randint(0, meshX)
+            #     randY = np.random.randint(0, meshY)
+            #     mapping.append((id, randX, randY))
 
-            # # Uncomment to have selective start
-            # yn = True
-            # count = 0
+            # Uncomment to have selective start
+            yn = True
 
-            # while yn:
-            #     count += 1 # Stop from running forever
+            while yn:
 
-            #     taskIDs = [i.id for i in Simulation.btasks]
+                taskIDs = [i.id for i in Simulation.btasks]
 
-            #     mapping = []
+                mapping = []
 
-            #     for id in taskIDs:
+                for id in taskIDs:
 
-            #         randX = np.random.randint(0, meshX)
-            #         randY = np.random.randint(0, meshY)
-            #         mapping.append((id, randX, randY))
+                    randX = np.random.randint(0, meshX)
+                    randY = np.random.randint(0, meshY)
+                    mapping.append((id, randX, randY))
 
-            #     try:
-            #         sim = Simulation.Simulation(meshX, meshY, 1, 1, mapping)
-            #         yn = False
-            #     except Exception:
-            #         yn = True
+                try:
+                    sim = Simulation.Simulation(meshX, meshY, 1, 1, mapping)
+                    yn = False
+                except Exception:
+                    yn = True
 
-            #     if count > 100*pop_size: # Stop from running forever
-            #         raise RuntimeError('Not likely to find soloutions to this size mesh grid')
-
+            print("Found sol")
             return mapping
 
 
