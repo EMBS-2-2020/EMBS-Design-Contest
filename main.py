@@ -8,7 +8,7 @@ def main():
 
 def gen_main():
     # Consts
-    pop_size = 10
+    pop_size = 1000
     mutation_rate = 0.01
     meshX = 3
     meshY = 3
@@ -31,20 +31,23 @@ def gen_main():
 
     for k in range(runs):
         # Sim population collect costs and inf if fail
-        # costs = []
+        costs = []
 
-        # for mapping in population_mappings:
-        #     try:
-        #         sim = Simulation.Simulation(meshX, meshY, 1, 1, mapping)
-        #         costs.append(sim.get_cost_mark())
-        #     except Exception:
-        #         costs.append(1000)
+        for mapping in population_mappings:
+            # try:
+            print(mapping)
+            sim = Simulation.Simulation(meshX, meshY, 99, 99, mapping)
+            costs.append(sim.get_cost_mark())
+            # except Exception:
+            #     costs.append(1000)
 
 
         # Invert costs need to find range
         # TODO: Can't do yet until sim can run and get a good guage on the range
-        inv_costs = [1]*10
-
+        # inv_costs = 
+        print(costs)
+        print(min(costs))
+        input()
         inv_costs = np.asarray(inv_costs)
 
 

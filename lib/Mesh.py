@@ -49,7 +49,6 @@ class Mesh:
                 raise Exception("SIMULATION FAILED - PROCESSOR UTIL EXCEEDED")
 
     def populate_routes(self):
-        print(self.mesh)
         for y in range(len(self.mesh)):
             for x in range(len(self.mesh[0])):
                 router = self.get_router(x, y)
@@ -68,7 +67,7 @@ class Mesh:
                             raise Exception("Destination task not found on any processor!")
                         self.do_route(router, dest_router, comm_flow)
                     if not has_routed:
-                        raise Exception("CommFlow not routed! Start task not found on any processor")
+                        raise Exception("CommFlow {} not routed! Start task not found on any processor".format(comm_flow.id))
 
     def do_route(self, r1, r2, comm_flow):
         if not r1.push_comm_flow(comm_flow):

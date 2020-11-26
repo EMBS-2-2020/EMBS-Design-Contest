@@ -80,6 +80,6 @@ class Simulation:
 
     def modify_util(self):
         for t in tasks:
-            t.util = t.util * self.factor_fi
+            t.util = t.util / self.factor_fi
         for c in comm_flows:
-            c.util = c.util * self.factor_fc
+            c.util = c.util / self.factor_fc
