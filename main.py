@@ -43,12 +43,8 @@ def gen_main():
 
 
         # Invert costs need to find range
-        # TODO: Can't do yet until sim can run and get a good guage on the range
-        # inv_costs = 
-        print(costs)
-        print(min(costs))
-        input()
-        inv_costs = np.asarray(inv_costs)
+        inv_costs = np.asarray(costs)
+        inv_costs = np.abs(inv_costs - 1000)
 
 
         # Breed population
