@@ -156,4 +156,4 @@ def gen_main():
 
 
 if __name__ == '__main__':
-    main()
+    gen_main()
