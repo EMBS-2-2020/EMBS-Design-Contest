@@ -27,7 +27,6 @@ class Router:
         else:
             self.push_comm_flow(flow, 4)
 
-
     def push_task(self, task):
         return self.processor.push_task(task)
 
@@ -36,7 +35,7 @@ class Router:
             self.util[direction] += comm_flow.util
             return True
         else:
-            raise Exception("Capacitcy is overflowed on router {},{}".format(self.x,self.y))
+            raise Exception("Capacity is overflowed on router {},{}".format(self.x,self.y))
 
     def has_capacity(self, comm_flow, direction):
         return self.util[direction] + comm_flow.util <= 1

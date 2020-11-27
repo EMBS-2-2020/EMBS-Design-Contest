@@ -52,9 +52,7 @@ class Mesh:
         # print("Mapping length {}".format(len(mapping)))
         for id, x, y in mapping:
             router = self.get_router(x, y)
-            if not router.push_task(self.get_task(id)):
-                # print(id, router.processor.util, self.get_task(id).util, mapping)
-                raise Exception("SIMULATION FAILED - PROCESSOR UTIL EXCEEDED")
+            router.push_task(self.get_task(id))
 
     def populate_routes(self):
         for comm_flow in self.comm_flows:
@@ -68,28 +66,15 @@ class Mesh:
                         # do routing
                         has_routed = True
 
-                        router.processor.create_flow(comm_flow, router)
+                        dest_router = self.mesh.get_router_of_task(comm_flow.dest_task_id)
+                        if not (dest_router.x == router.x and dest_router.y == router.y):
+                            router.processor.create_flow(comm_flow, router)
+                        # otherwise do nothing - dest task and sender task are on same processor
+                    if has_routed:
+                        break
+                if has_routed:
+                    break
 
             if not has_routed:
                 raise Exception("CommFlow {} not routed! Start task not found on any processor".format(comm_flow.id))
 
-    # def do_route(self, r1, r2, comm_flow):
-    #     if not r1.push_comm_flow(comm_flow):
-    #         raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
-    #     # do x alignment
-    #     print("Origin: {},{}. Dest: {},{}".format(r1.x, r1.y, r2.x, r2.y))
-    #     if not r1.x == r2.x:
-    #         for i in range(r1.x, r2.x):
-    #             new_x = r1.x + i
-    #             print("Moving in X to router {}, {}".format(new_x, r1.y))
-    #             router = self.get_router(new_x, r1.y)
-    #             if not router.push_comm_flow(comm_flow):
-    #                 raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")
-    #     # do y alignment
-    #     if not r1.y == r2.y:
-    #         for i in range(r1.y, r2.y):
-    #             new_y = r1.y + i
-    #             print("Moving in Y to router {}, {}".format(r2.x, new_y))
-    #             router = self.get_router(r2.x, new_y)
-    #             if not router.push_comm_flow(comm_flow):
-    #                 raise Exception("SIMULATION FAILED - ROUTER UTIL EXCEEDED")

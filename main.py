@@ -10,7 +10,15 @@ def main():
     fi_passing = True
     while fc_passing:
         try:
-            sim = Simulation.Simulation(4, 3, factorfc, 1, [(1, 2, 2), (2, 3, 0), (3, 3, 1), (4, 0, 1), (5, 3, 1), (6, 0, 2), (7, 1, 2), (8, 3, 0), (9, 3, 1), (10, 3, 2), (11, 3, 2), (12, 2, 2), (13, 1, 2), (14, 2, 2), (15, 2, 0), (16, 2, 2), (17, 0, 1), (18, 3, 2), (19, 0, 0), (20, 0, 2), (21, 3, 2), (22, 1, 0), (23, 3, 2), (24, 2, 1), (25, 1, 0), (26, 2, 2), (27, 0, 0), (28, 2, 0), (29, 2, 2), (30, 1, 2), (31, 0, 2), (32, 3, 0), (33, 0, 2), (34, 3, 0), (35, 0, 1), (36, 1, 0), (37, 1, 2), (38, 2, 1), (39, 0, 0), (40, 1, 2), (41, 1, 1), (42, 1, 0), (43, 1, 1), (44, 1, 2)])
+            sim = Simulation.Simulation(4, 3, factorfc, 1,
+                                        [(1, 2, 2), (2, 3, 0), (3, 3, 1), (4, 0, 1), (5, 3, 1), (6, 0, 2), (7, 1, 2),
+                                         (8, 3, 0), (9, 3, 1), (10, 3, 2), (11, 3, 2), (12, 2, 2), (13, 1, 2),
+                                         (14, 2, 2), (15, 2, 0), (16, 2, 2), (17, 0, 1), (18, 3, 2), (19, 0, 0),
+                                         (20, 0, 2), (21, 3, 2), (22, 1, 0), (23, 3, 2), (24, 2, 1), (25, 1, 0),
+                                         (26, 2, 2), (27, 0, 0), (28, 2, 0), (29, 2, 2), (30, 1, 2), (31, 0, 2),
+                                         (32, 3, 0), (33, 0, 2), (34, 3, 0), (35, 0, 1), (36, 1, 0), (37, 1, 2),
+                                         (38, 2, 1), (39, 0, 0), (40, 1, 2), (41, 1, 1), (42, 1, 0), (43, 1, 1),
+                                         (44, 1, 2)])
             factorfc -= 0.01
         except Exception:
             factorfc += 0.01
@@ -18,13 +26,22 @@ def main():
 
     while fi_passing:
         try:
-            sim = Simulation.Simulation(4, 3, 1, factorfi, [(1, 2, 2), (2, 3, 0), (3, 3, 1), (4, 0, 1), (5, 3, 1), (6, 0, 2), (7, 1, 2), (8, 3, 0), (9, 3, 1), (10, 3, 2), (11, 3, 2), (12, 2, 2), (13, 1, 2), (14, 2, 2), (15, 2, 0), (16, 2, 2), (17, 0, 1), (18, 3, 2), (19, 0, 0), (20, 0, 2), (21, 3, 2), (22, 1, 0), (23, 3, 2), (24, 2, 1), (25, 1, 0), (26, 2, 2), (27, 0, 0), (28, 2, 0), (29, 2, 2), (30, 1, 2), (31, 0, 2), (32, 3, 0), (33, 0, 2), (34, 3, 0), (35, 0, 1), (36, 1, 0), (37, 1, 2), (38, 2, 1), (39, 0, 0), (40, 1, 2), (41, 1, 1), (42, 1, 0), (43, 1, 1), (44, 1, 2)])
+            sim = Simulation.Simulation(4, 3, 1, factorfi,
+                                        [(1, 2, 2), (2, 3, 0), (3, 3, 1), (4, 0, 1), (5, 3, 1), (6, 0, 2), (7, 1, 2),
+                                         (8, 3, 0), (9, 3, 1), (10, 3, 2), (11, 3, 2), (12, 2, 2), (13, 1, 2),
+                                         (14, 2, 2), (15, 2, 0), (16, 2, 2), (17, 0, 1), (18, 3, 2), (19, 0, 0),
+                                         (20, 0, 2), (21, 3, 2), (22, 1, 0), (23, 3, 2), (24, 2, 1), (25, 1, 0),
+                                         (26, 2, 2), (27, 0, 0), (28, 2, 0), (29, 2, 2), (30, 1, 2), (31, 0, 2),
+                                         (32, 3, 0), (33, 0, 2), (34, 3, 0), (35, 0, 1), (36, 1, 0), (37, 1, 2),
+                                         (38, 2, 1), (39, 0, 0), (40, 1, 2), (41, 1, 1), (42, 1, 0), (43, 1, 1),
+                                         (44, 1, 2)])
             factorfi -= 0.01
         except Exception:
             factorfi += 0.01
             fi_passing = False
 
     print(factorfc, factorfi)
+
 
 def gen_main():
     graphx = []
@@ -36,8 +53,8 @@ def gen_main():
         # Consts
         pop_size = 500
         mutation_rate = 0.01
-        meshX = 4
-        meshY = 3
+        meshX = 10
+        meshY = 10
         runs = 100
 
         # Generate population
@@ -63,7 +80,6 @@ def gen_main():
                 mapping = []
 
                 for id in taskIDs:
-
                     randX = np.random.randint(0, meshX)
                     randY = np.random.randint(0, meshY)
                     mapping.append((id, randX, randY))
@@ -76,7 +92,6 @@ def gen_main():
 
             print("Found sol")
             return mapping
-
 
         population_mappings = [create_random_mapping() for i in range(pop_size)]
 
@@ -94,11 +109,12 @@ def gen_main():
 
                 # costs.append(np.random.randint(0, 1000))
 
-
             # Invert costs need to find range
             inv_costs = np.asarray(costs)
             inv_costs = np.abs(inv_costs - 1000)
-            print('Fitness = Max: {}  Min: {}  Ave: {}  Fails: {}'.format(inv_costs.max(), inv_costs.min(), inv_costs.mean(), np.count_nonzero(inv_costs==0)))
+            print('Fitness = Max: {}  Min: {}  Ave: {}  Fails: {}'.format(inv_costs.max(), inv_costs.min(),
+                                                                          inv_costs.mean(),
+                                                                          np.count_nonzero(inv_costs == 0)))
             print('Best mapping is:\n{}'.format(population_mappings[np.argmax(inv_costs)]))
 
             # Drawing pretty lines and collecting results
@@ -108,13 +124,13 @@ def gen_main():
             if inv_costs.max() > bestmapping_fit:
                 bestmapping_fit = inv_costs.max()
                 bestmapping = population_mappings[np.argmax(inv_costs)]
-            #~~~~
+            # ~~~~
 
             # Breed population
             if sum(inv_costs) != 0:
-                distribution = inv_costs/sum(inv_costs)
-            else: 
-                distribution = np.asarray([1/pop_size]*pop_size)
+                distribution = inv_costs / sum(inv_costs)
+            else:
+                distribution = np.asarray([1 / pop_size] * pop_size)
 
             choices1 = np.random.choice(np.arange(pop_size), pop_size, p=distribution)
             choices2 = np.random.choice(np.arange(pop_size), pop_size, p=distribution)
@@ -127,8 +143,8 @@ def gen_main():
 
                 newmapping = []
 
-                for (tsk1, x1, y1,),(tsk2, x2, y2) in zip(mapping1, mapping2):
-                    
+                for (tsk1, x1, y1,), (tsk2, x2, y2) in zip(mapping1, mapping2):
+
                     if np.random.random() > mutation_rate:
 
                         # No mutation
