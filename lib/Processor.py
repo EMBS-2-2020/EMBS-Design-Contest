@@ -11,6 +11,7 @@ class Processor:
             self.util += task.util
             return True
         else:
+            print('Processor task, {},{},{}'.format(task.util, self.util, [i.util for i in self.ass_tasks]))
             raise Exception("SIMULATION FAILED - PROCESSOR UTIL EXCEEDED")
 
     def has_capacity(self, task):
@@ -30,4 +31,5 @@ class Processor:
             self.commflow_util += flow.util
             router.recieve_flow(flow)
         else:
+            print('Processor flow, {},{}'.format(flow.util, self.commflow_util))
             raise Exception("Flow overflow on processor to noc")

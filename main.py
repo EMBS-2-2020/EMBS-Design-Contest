@@ -53,8 +53,8 @@ def gen_main():
         # Consts
         pop_size = 500
         mutation_rate = 0.01
-        meshX = 10
-        meshY = 10
+        meshX = 20
+        meshY = 20
         runs = 100
 
         # Generate population
@@ -88,6 +88,7 @@ def gen_main():
                     sim = Simulation.Simulation(meshX, meshY, 1, 1, mapping)
                     yn = False
                 except Exception:
+                    print(mapping)
                     yn = True
 
             print("Found sol")
