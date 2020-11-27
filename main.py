@@ -114,8 +114,8 @@ def gen_main():
             inv_costs = np.asarray(costs)
             inv_costs = np.abs(inv_costs - 1000)
             print('Fitness = Max: {}  Min: {}  Ave: {}  Fails: {}'.format(inv_costs.max(), inv_costs.min(),
-                                                                          inv_costs.mean(),
-                                                                          np.count_nonzero(inv_costs == 0)))
+                                                                            inv_costs.mean(),
+                                                                            np.count_nonzero(inv_costs == 0)))
             print('Best mapping is:\n{}'.format(population_mappings[np.argmax(inv_costs)]))
 
             # Drawing pretty lines and collecting results

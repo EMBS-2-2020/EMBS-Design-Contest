@@ -66,7 +66,7 @@ class Mesh:
                         # do routing
                         has_routed = True
 
-                        dest_router = self.mesh.get_router_of_task(comm_flow.dest_task_id)
+                        dest_router = self.get_router_of_task(comm_flow.dest_task_id)
                         if not (dest_router.x == router.x and dest_router.y == router.y):
                             router.processor.create_flow(comm_flow, router)
                         # otherwise do nothing - dest task and sender task are on same processor
